@@ -2,6 +2,7 @@ import streamDeck, {
 	type Action,
 	type DialAction,
 	type KeyAction,
+	type KeyUpEvent,
 	SingletonAction,
 	type WillAppearEvent,
 } from "@elgato/streamdeck";
@@ -38,6 +39,12 @@ export abstract class SyncedKeyAction<T extends JsonObject = JsonObject> extends
 	}
 
 	override async onWillAppear(ev: WillAppearEvent<T>): Promise<void> {
+		if (ev.action.isKey()) {
+			await this.syncAction(ev.action);
+		}
+	}
+
+	override async onKeyUp(ev: KeyUpEvent<T>): Promise<void> {
 		if (ev.action.isKey()) {
 			await this.syncAction(ev.action);
 		}

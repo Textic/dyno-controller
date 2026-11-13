@@ -10,6 +10,7 @@
 			"Tooltip": "Toggle playback in Dyno Music.",
 			"PropertyInspectorPath": "ui/settings.html",
 			"SupportedInMultiActions": true,
+			"DisableAutomaticStates": true,
 			"Controllers": [
 				"Keypad"
 			],
@@ -82,6 +83,7 @@
 			"Tooltip": "Toggle Like on the current track.",
 			"PropertyInspectorPath": "ui/settings.html",
 			"SupportedInMultiActions": true,
+			"DisableAutomaticStates": true,
 			"Controllers": [
 				"Keypad"
 			],
@@ -103,6 +105,7 @@
 			"Tooltip": "Toggle Dislike on the current track.",
 			"PropertyInspectorPath": "ui/settings.html",
 			"SupportedInMultiActions": true,
+			"DisableAutomaticStates": true,
 			"Controllers": [
 				"Keypad"
 			],
@@ -123,6 +126,7 @@
 			"Icon": "imgs/actions/shuffle/icon",
 			"Tooltip": "Toggle shuffle queue in Dyno Music.",
 			"PropertyInspectorPath": "ui/settings.html",
+			"DisableAutomaticStates": true,
 			"Controllers": [
 				"Keypad"
 			],
@@ -143,6 +147,7 @@
 			"Icon": "imgs/actions/repeat/icon",
 			"Tooltip": "Cycle repeat mode (Off, All, One) in Dyno Music.",
 			"PropertyInspectorPath": "ui/settings.html",
+			"DisableAutomaticStates": true,
 			"Controllers": [
 				"Keypad"
 			],
@@ -168,6 +173,7 @@
 			"Tooltip": "Toggle audio mute in Dyno Music.",
 			"PropertyInspectorPath": "ui/settings.html",
 			"SupportedInMultiActions": true,
+			"DisableAutomaticStates": true,
 			"Controllers": [
 				"Keypad"
 			],
@@ -189,6 +195,7 @@
 			"Tooltip": "Increase or decrease Dyno Music volume by a step.",
 			"PropertyInspectorPath": "ui/settings.html",
 			"SupportedInMultiActions": true,
+			"DisableAutomaticStates": true,
 			"Controllers": [
 				"Keypad"
 			],
@@ -206,7 +213,7 @@
 			]
 		},
 		{
-			"Name": "Volume Dial",
+			"Name": "Dyno Dial",
 			"UUID": "com.textic.dyno-controller.volume-dial",
 			"Icon": "imgs/actions/volume-dial/icon",
 			"Tooltip": "Rotate dial to adjust volume, press or tap to mute.",

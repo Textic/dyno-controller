@@ -37,6 +37,7 @@ export class VolumeDialAction extends SingletonAction<VolumeDialSettings> {
 			}
 		};
 		dynoClient.on("state", refreshAll);
+		dynoClient.on("artwork", refreshAll);
 		dynoClient.on("connection", refreshAll);
 	}
 
@@ -53,7 +54,7 @@ export class VolumeDialAction extends SingletonAction<VolumeDialSettings> {
 	}
 
 	override async onDialRotate(ev: DialRotateEvent<VolumeDialSettings>): Promise<void> {
-		const step = Math.max(1, Math.min(20, Number(ev.payload.settings.step) || 2));
+		const step = Math.max(1, Math.min(20, Number(ev.payload.settings.step) || 5));
 		const base = this.optimisticVolume ?? dynoClient.getState()?.volume ?? 50;
 		const nextVolume = Math.max(0, Math.min(100, Math.round(base + ev.payload.ticks * step)));
 
@@ -90,21 +91,26 @@ export class VolumeDialAction extends SingletonAction<VolumeDialSettings> {
 
 		if (!connected || !state) {
 			await act.setFeedback({
-				title: "Dyno Music",
+				title: "Dyno Dial",
 				value: "Offline",
 				indicator: { value: 0 },
-				icon: "imgs/actions/mute/off",
+				icon: "imgs/actions/volume-dial/key",
 			});
 			return;
 		}
 
 		const muted = overrideMuted ?? state.muted;
 		const volume = Math.round(overrideVolume ?? this.optimisticVolume ?? state.volume);
+		const artwork = dynoClient.getArtwork();
+		const hasTrackArtwork =
+			!state.isAd && Boolean(state.track?.videoId && artwork?.videoId === state.track.videoId && artwork.image);
+		const musicIcon = hasTrackArtwork ? artwork!.image : "imgs/actions/volume-dial/key";
+
 		await act.setFeedback({
-			title: muted ? "Muted" : "Volume",
-			value: muted ? "0%" : `${volume}%`,
+			title: state.track?.title?.trim() || "Dyno Dial",
+			value: muted ? "Muted" : `${volume}%`,
 			indicator: { value: muted ? 0 : volume },
-			icon: muted || volume === 0 ? "imgs/actions/mute/on" : "imgs/actions/mute/off",
+			icon: muted ? "imgs/actions/mute/on" : musicIcon,
 		});
 	}
 }
