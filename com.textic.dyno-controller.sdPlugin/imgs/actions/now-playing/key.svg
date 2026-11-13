@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 144">
+  <defs>
+    <linearGradient id="dynoBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a1623" />
+      <stop offset="1" stop-color="#14131c" />
+    </linearGradient>
+  </defs>
+  <rect width="144" height="144" fill="url(#dynoBg)" />
+  <g fill="none" stroke="#ff5c7a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M56 86V42l44-8v44" />
+    <circle cx="46" cy="88" r="11" fill="#ff5c7a" />
+    <circle cx="90" cy="80" r="11" fill="#ff5c7a" />
+  </g>
+</svg>

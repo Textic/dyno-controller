@@ -1,0 +1,256 @@
+<!doctype html>
+<html>
+	<head lang="en">
+		<title>Dyno Controller Settings</title>
+		<meta charset="utf-8" />
+		<script src="https://sdpi-components.dev/releases/v4/sdpi-components.js"></script>
+		<style>
+			body {
+				margin: 0;
+				padding-bottom: 16px;
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+			}
+			.hidden {
+				display: none !important;
+			}
+			.status-box {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				padding: 8px 10px;
+				margin: 4px 0 8px;
+				border-radius: 6px;
+				background: rgba(255, 255, 255, 0.05);
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				font-size: 12px;
+				line-height: 1.35;
+			}
+			.status-dot {
+				width: 9px;
+				height: 9px;
+				border-radius: 50%;
+				flex-shrink: 0;
+				background: #9ca3af;
+			}
+			.status-dot.connected {
+				background: #22c55e;
+				box-shadow: 0 0 6px rgba(34, 197, 94, 0.7);
+			}
+			.status-dot.connecting {
+				background: #f59e0b;
+			}
+			.status-dot.unauthorized,
+			.status-dot.error {
+				background: #ef4444;
+			}
+			.status-dot.disconnected,
+			.status-dot.unconfigured {
+				background: #9ca3af;
+			}
+			.status-text {
+				display: flex;
+				flex-direction: column;
+				min-width: 0;
+			}
+			.status-title {
+				font-weight: 600;
+				color: #f3f4f6;
+			}
+			.status-detail {
+				color: #9ca3af;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.hint {
+				color: #9ca3af;
+				font-size: 11px;
+				line-height: 1.45;
+				margin: 6px 16px 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- Action-specific settings (shown based on active action UUID) -->
+		<div id="section-now-playing" class="hidden">
+			<sdpi-heading>Now Playing</sdpi-heading>
+			<sdpi-item label="Key Title">
+				<sdpi-select setting="titleMode" default="titleArtist">
+					<option value="titleArtist">Title &amp; Artist</option>
+					<option value="title">Title Only</option>
+					<option value="none">Artwork Only (No Title)</option>
+				</sdpi-select>
+			</sdpi-item>
+			<sdpi-item label="On Press">
+				<sdpi-select setting="pressAction" default="toggle">
+					<option value="toggle">Play / Pause</option>
+					<option value="next">Next Track</option>
+					<option value="none">Display Only</option>
+				</sdpi-select>
+			</sdpi-item>
+		</div>
+
+		<div id="section-volume-step" class="hidden">
+			<sdpi-heading>Volume Step</sdpi-heading>
+			<sdpi-item label="Direction">
+				<sdpi-select setting="direction" default="up">
+					<option value="up">Volume Up (+)</option>
+					<option value="down">Volume Down (-)</option>
+				</sdpi-select>
+			</sdpi-item>
+			<sdpi-item label="Step Size (%)">
+				<sdpi-range setting="step" min="1" max="25" step="1" default="5" showlabels></sdpi-range>
+			</sdpi-item>
+			<sdpi-item label="Display">
+				<sdpi-checkbox setting="showVolume" default="true" label="Show current volume % on key"></sdpi-checkbox>
+			</sdpi-item>
+		</div>
+
+		<div id="section-volume-dial" class="hidden">
+			<sdpi-heading>Volume Dial</sdpi-heading>
+			<sdpi-item label="Step / Tick (%)">
+				<sdpi-range setting="step" min="1" max="20" step="1" default="5" showlabels></sdpi-range>
+			</sdpi-item>
+		</div>
+
+		<div id="section-quick-play" class="hidden">
+			<sdpi-heading>Quick Play</sdpi-heading>
+			<sdpi-item label="URL or ID">
+				<sdpi-textfield
+					setting="target"
+					placeholder="https://music.youtube.com/watch?v=... or PL..."
+				></sdpi-textfield>
+			</sdpi-item>
+			<sdpi-item label="Key Label">
+				<sdpi-textfield setting="label" placeholder="Optional button title"></sdpi-textfield>
+			</sdpi-item>
+			<p class="hint">
+				Accepts a YouTube / YouTube Music watch or playlist URL, or a raw videoId / playlistId.
+			</p>
+		</div>
+
+		<!-- Global Dyno Music WebSocket Connection -->
+		<sdpi-heading>Dyno Music Connection (Shared)</sdpi-heading>
+
+		<sdpi-item label="Status">
+			<div class="status-box">
+				<span id="status-dot" class="status-dot unconfigured"></span>
+				<div class="status-text">
+					<span id="status-title" class="status-title">Checking connection...</span>
+					<span id="status-detail" class="status-detail">Waiting for plugin status</span>
+				</div>
+			</div>
+		</sdpi-item>
+
+		<sdpi-item label="WebSocket URL">
+			<sdpi-textfield
+				setting="address"
+				global
+				placeholder="ws://127.0.0.1:26538/ws?token=..."
+			></sdpi-textfield>
+		</sdpi-item>
+
+		<sdpi-item label="Port (Optional)">
+			<sdpi-textfield setting="port" global placeholder="26538"></sdpi-textfield>
+		</sdpi-item>
+
+		<sdpi-item label="Token (Optional)">
+			<sdpi-password setting="token" global placeholder="Paste API token if not using WebSocket URL"></sdpi-password>
+		</sdpi-item>
+
+		<sdpi-item>
+			<sdpi-button id="reconnect-btn">Reconnect Now</sdpi-button>
+		</sdpi-item>
+
+		<p class="hint">
+			In Dyno Music, open <strong>Settings &rarr; Developer</strong>, enable
+			<strong>API WebSocket</strong>, and click <strong>Copy address</strong>, then paste it into
+			<em>WebSocket URL</em> above (or enter Port and Token manually).
+		</p>
+
+		<script>
+			(function () {
+				const { streamDeckClient } = SDPIComponents;
+
+				const actionSections = {
+					"com.textic.dyno-controller.now-playing": "section-now-playing",
+					"com.textic.dyno-controller.volume-step": "section-volume-step",
+					"com.textic.dyno-controller.volume-dial": "section-volume-dial",
+					"com.textic.dyno-controller.quick-play": "section-quick-play",
+				};
+
+				const dotEl = document.getElementById("status-dot");
+				const titleEl = document.getElementById("status-title");
+				const detailEl = document.getElementById("status-detail");
+				const reconnectBtn = document.getElementById("reconnect-btn");
+
+				function renderStatus(snapshot) {
+					if (!snapshot || !snapshot.status) return;
+					const status = snapshot.status;
+					dotEl.className = "status-dot " + status;
+
+					const labels = {
+						connected: "Connected to Dyno Music",
+						connecting: "Connecting...",
+						unauthorized: "Invalid Token (HTTP 401)",
+						disconnected: "Disconnected — retrying",
+						unconfigured: "Not Configured",
+						error: "Connection Error",
+					};
+					titleEl.textContent = labels[status] || status;
+
+					if (status === "connected") {
+						const ver = snapshot.appVersion ? "v" + snapshot.appVersion : "API connected";
+						const port = snapshot.port ? "Port " + snapshot.port : "";
+						const track = snapshot.trackTitle ? "Playing: " + snapshot.trackTitle : "Idle";
+						detailEl.textContent = [ver, port, track].filter(Boolean).join(" • ");
+					} else if (snapshot.errorMessage) {
+						detailEl.textContent = snapshot.errorMessage;
+					} else if (status === "unconfigured") {
+						detailEl.textContent = "Paste your WebSocket URL or API token below";
+					} else {
+						detailEl.textContent = snapshot.port ? "Port " + snapshot.port : "";
+					}
+				}
+
+				async function init() {
+					try {
+						const info = await streamDeckClient.getConnectionInfo();
+						const actionUuid = info?.actionInfo?.action;
+						const sectionId = actionUuid ? actionSections[actionUuid] : null;
+						if (sectionId) {
+							document.getElementById(sectionId)?.classList.remove("hidden");
+						}
+					} catch (err) {
+						console.error("Failed to inspect connectionInfo", err);
+					}
+
+					if (streamDeckClient.sendToPropertyInspector?.subscribe) {
+						streamDeckClient.sendToPropertyInspector.subscribe((ev) => {
+							if (ev?.payload?.type === "status") {
+								renderStatus(ev.payload);
+							}
+						});
+					}
+
+					if (typeof streamDeckClient.send === "function") {
+						streamDeckClient.send("sendToPlugin", { type: "getStatus" });
+					}
+				}
+
+				reconnectBtn?.addEventListener("click", () => {
+					if (typeof streamDeckClient.send === "function") {
+						streamDeckClient.send("sendToPlugin", { type: "reconnect" });
+					}
+				});
+
+				if (document.readyState === "loading") {
+					document.addEventListener("DOMContentLoaded", init);
+				} else {
+					void init();
+				}
+			})();
+		</script>
+	</body>
+</html>

@@ -4,18 +4,244 @@
 	"Author": "Textic",
 	"Actions": [
 		{
-			"Name": "Counter",
-			"UUID": "com.textic.dyno-controller.increment",
-			"Icon": "imgs/actions/counter/icon",
-			"Tooltip": "Displays a count, which increments by one on press.",
-			"PropertyInspectorPath": "ui/increment-counter.html",
+			"Name": "Play / Pause",
+			"UUID": "com.textic.dyno-controller.play-pause",
+			"Icon": "imgs/actions/play-pause/icon",
+			"Tooltip": "Toggle playback in Dyno Music.",
+			"PropertyInspectorPath": "ui/settings.html",
+			"SupportedInMultiActions": true,
 			"Controllers": [
 				"Keypad"
 			],
 			"States": [
 				{
-					"Image": "imgs/actions/counter/key",
-					"TitleAlignment": "middle"
+					"Image": "imgs/actions/play-pause/play",
+					"TitleAlignment": "bottom"
+				},
+				{
+					"Image": "imgs/actions/play-pause/pause",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Next Track",
+			"UUID": "com.textic.dyno-controller.next",
+			"Icon": "imgs/actions/next/icon",
+			"Tooltip": "Skip to the next track in Dyno Music.",
+			"PropertyInspectorPath": "ui/settings.html",
+			"SupportedInMultiActions": true,
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/next/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Previous Track",
+			"UUID": "com.textic.dyno-controller.previous",
+			"Icon": "imgs/actions/previous/icon",
+			"Tooltip": "Return to the previous track in Dyno Music.",
+			"PropertyInspectorPath": "ui/settings.html",
+			"SupportedInMultiActions": true,
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/previous/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Now Playing",
+			"UUID": "com.textic.dyno-controller.now-playing",
+			"Icon": "imgs/actions/now-playing/icon",
+			"Tooltip": "Display current track artwork and title from Dyno Music.",
+			"PropertyInspectorPath": "ui/settings.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/now-playing/key",
+					"TitleAlignment": "bottom",
+					"FontSize": 11
+				}
+			]
+		},
+		{
+			"Name": "Like Track",
+			"UUID": "com.textic.dyno-controller.like",
+			"Icon": "imgs/actions/like/icon",
+			"Tooltip": "Toggle Like on the current track.",
+			"PropertyInspectorPath": "ui/settings.html",
+			"SupportedInMultiActions": true,
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/like/off",
+					"TitleAlignment": "bottom"
+				},
+				{
+					"Image": "imgs/actions/like/on",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Dislike Track",
+			"UUID": "com.textic.dyno-controller.dislike",
+			"Icon": "imgs/actions/dislike/icon",
+			"Tooltip": "Toggle Dislike on the current track.",
+			"PropertyInspectorPath": "ui/settings.html",
+			"SupportedInMultiActions": true,
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/dislike/off",
+					"TitleAlignment": "bottom"
+				},
+				{
+					"Image": "imgs/actions/dislike/on",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Shuffle",
+			"UUID": "com.textic.dyno-controller.shuffle",
+			"Icon": "imgs/actions/shuffle/icon",
+			"Tooltip": "Toggle shuffle queue in Dyno Music.",
+			"PropertyInspectorPath": "ui/settings.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/shuffle/off",
+					"TitleAlignment": "bottom"
+				},
+				{
+					"Image": "imgs/actions/shuffle/on",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Repeat Mode",
+			"UUID": "com.textic.dyno-controller.repeat",
+			"Icon": "imgs/actions/repeat/icon",
+			"Tooltip": "Cycle repeat mode (Off, All, One) in Dyno Music.",
+			"PropertyInspectorPath": "ui/settings.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/repeat/off",
+					"TitleAlignment": "bottom"
+				},
+				{
+					"Image": "imgs/actions/repeat/all",
+					"TitleAlignment": "bottom"
+				},
+				{
+					"Image": "imgs/actions/repeat/one",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Mute / Unmute",
+			"UUID": "com.textic.dyno-controller.mute",
+			"Icon": "imgs/actions/mute/icon",
+			"Tooltip": "Toggle audio mute in Dyno Music.",
+			"PropertyInspectorPath": "ui/settings.html",
+			"SupportedInMultiActions": true,
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/mute/off",
+					"TitleAlignment": "bottom"
+				},
+				{
+					"Image": "imgs/actions/mute/on",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Volume Step",
+			"UUID": "com.textic.dyno-controller.volume-step",
+			"Icon": "imgs/actions/volume-step/icon",
+			"Tooltip": "Increase or decrease Dyno Music volume by a step.",
+			"PropertyInspectorPath": "ui/settings.html",
+			"SupportedInMultiActions": true,
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/volume-step/up",
+					"TitleAlignment": "bottom",
+					"FontSize": 11
+				},
+				{
+					"Image": "imgs/actions/volume-step/down",
+					"TitleAlignment": "bottom",
+					"FontSize": 11
+				}
+			]
+		},
+		{
+			"Name": "Volume Dial",
+			"UUID": "com.textic.dyno-controller.volume-dial",
+			"Icon": "imgs/actions/volume-dial/icon",
+			"Tooltip": "Rotate dial to adjust volume, press or tap to mute.",
+			"PropertyInspectorPath": "ui/settings.html",
+			"Controllers": [
+				"Encoder"
+			],
+			"Encoder": {
+				"layout": "$B2",
+				"TriggerDescription": {
+					"Rotate": "Adjust Volume",
+					"Push": "Mute / Unmute",
+					"Touch": "Mute / Unmute"
+				}
+			},
+			"States": [
+				{
+					"Image": "imgs/actions/volume-dial/key"
+				}
+			]
+		},
+		{
+			"Name": "Quick Play",
+			"UUID": "com.textic.dyno-controller.quick-play",
+			"Icon": "imgs/actions/quick-play/icon",
+			"Tooltip": "Play a configured YouTube Music track or playlist in Dyno Music.",
+			"PropertyInspectorPath": "ui/settings.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/quick-play/key",
+					"TitleAlignment": "bottom",
+					"FontSize": 11
 				}
 			]
 		}
