@@ -13,6 +13,7 @@ type VolumeStepSettings = {
 	showVolume?: boolean;
 };
 
+/** Keypad action that steps Dyno Music volume up or down and optionally displays volume %. */
 @action({ UUID: "com.textic.dyno-controller.volume-step" })
 export class VolumeStepAction extends SyncedKeyAction<VolumeStepSettings> {
 	override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<VolumeStepSettings>): Promise<void> {

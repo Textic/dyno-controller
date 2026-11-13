@@ -24,6 +24,7 @@ interface PendingRequest {
 	timer: NodeJS.Timeout;
 }
 
+/** Serializable connection summary pushed to the Property Inspector UI. */
 export interface ClientStatusSnapshot {
 	status: ConnectionStatus;
 	port: number | null;
@@ -32,6 +33,10 @@ export interface ClientStatusSnapshot {
 	trackTitle: string | null;
 }
 
+/**
+ * Persistent WebSocket client for Dyno Music's local Developer API.
+ * Maintains synchronized playback state, artwork, and exponential-backoff reconnection.
+ */
 class DynoClient extends EventEmitter {
 	private ws: WebSocket | null = null;
 	private target: ConnectionTarget | null = null;
@@ -103,6 +108,7 @@ class DynoClient extends EventEmitter {
 		this.connect();
 	}
 
+	/** Sends a playback or queue command and waits for Dyno Music's `result` ack. */
 	public async sendCommand(command: DynoCommand): Promise<void> {
 		if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
 			if (this.status === "disconnected" || this.status === "error") {
@@ -113,6 +119,7 @@ class DynoClient extends EventEmitter {
 		await this.sendMessage({ type: "command", command });
 	}
 
+	/** Requests a fresh full state, queue, and artwork snapshot from Dyno Music. */
 	public async requestRefresh(): Promise<void> {
 		if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
 		await this.sendMessage({ type: "get" });

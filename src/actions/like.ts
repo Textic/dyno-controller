@@ -2,6 +2,7 @@ import { action, type KeyAction, type KeyDownEvent } from "@elgato/streamdeck";
 import { dynoClient } from "../dyno-client";
 import { runDynoCommand, type EmptySettings, SyncedKeyAction } from "./helpers";
 
+/** Keypad action that toggles Like rating on the current track. */
 @action({ UUID: "com.textic.dyno-controller.like" })
 export class LikeAction extends SyncedKeyAction<EmptySettings> {
 	protected override async syncAction(action: KeyAction<EmptySettings>): Promise<void> {

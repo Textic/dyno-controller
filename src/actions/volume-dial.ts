@@ -19,6 +19,11 @@ type VolumeDialSettings = {
 	touchAction?: DialPressMode;
 };
 
+/**
+ * Stream Deck+ Encoder action (`$B2` touchstrip layout):
+ * rotates to adjust volume, pushes to Play/Pause (configurable), taps touchstrip to Mute/Unmute (configurable),
+ * and renders current track artwork or the Dyno Music logo.
+ */
 @action({ UUID: "com.textic.dyno-controller.volume-dial" })
 export class VolumeDialAction extends SingletonAction<VolumeDialSettings> {
 	private subscribed = false;

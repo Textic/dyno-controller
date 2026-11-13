@@ -13,6 +13,7 @@ type NowPlayingSettings = {
 	pressAction?: "toggle" | "next" | "none";
 };
 
+/** Keypad action showing live track artwork and title/artist with configurable press behavior. */
 @action({ UUID: "com.textic.dyno-controller.now-playing" })
 export class NowPlayingAction extends SyncedKeyAction<NowPlayingSettings> {
 	private cache = new Map<string, { title?: string; image?: string }>();

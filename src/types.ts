@@ -1,5 +1,8 @@
+/** Playback lifecycle states reported by Dyno Music. */
 export type PlayerStatus = "idle" | "playing" | "paused" | "buffering" | "ended";
+/** Repeat queue cycling modes. */
 export type RepeatMode = "NONE" | "ALL" | "ONE";
+/** Track rating values recognized by YouTube Music / Dyno Music. */
 export type LikeStatus = "LIKE" | "DISLIKE" | "INDIFFERENT";
 
 export interface DynoArtist {

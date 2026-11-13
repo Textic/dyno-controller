@@ -9,6 +9,7 @@ const STATE_BY_REPEAT: Record<RepeatMode, number> = {
 	ONE: 2,
 };
 
+/** Keypad action that cycles repeat mode (`NONE` -> `ALL` -> `ONE`). */
 @action({ UUID: "com.textic.dyno-controller.repeat" })
 export class RepeatAction extends SyncedKeyAction<EmptySettings> {
 	protected override async syncAction(action: KeyAction<EmptySettings>): Promise<void> {

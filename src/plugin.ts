@@ -16,6 +16,7 @@ import type { GlobalSettings } from "./types";
 
 streamDeck.logger.setLevel("info");
 
+// Register all Keypad and Stream Deck+ Encoder actions exposed in manifest.json.
 streamDeck.actions.registerAction(new PlayPauseAction());
 streamDeck.actions.registerAction(new NextAction());
 streamDeck.actions.registerAction(new PreviousAction());
@@ -29,6 +30,7 @@ streamDeck.actions.registerAction(new VolumeStepAction());
 streamDeck.actions.registerAction(new VolumeDialAction());
 streamDeck.actions.registerAction(new QuickPlayAction());
 
+/** Broadcasts the live WebSocket status snapshot to any open Property Inspector. */
 const pushStatusToInspector = () => {
 	if (!streamDeck.ui.action) return;
 	void streamDeck.ui.sendToPropertyInspector({
@@ -57,6 +59,7 @@ streamDeck.ui.onSendToPlugin((ev) => {
 	}
 });
 
+/** Connects to the Stream Deck host and initializes Dyno Music from saved Global Settings. */
 async function start(): Promise<void> {
 	await streamDeck.connect();
 	const globalSettings = await streamDeck.settings.getGlobalSettings<GlobalSettings>();

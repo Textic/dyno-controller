@@ -2,6 +2,7 @@ import { action, type KeyAction, type KeyDownEvent } from "@elgato/streamdeck";
 import { dynoClient } from "../dyno-client";
 import { runDynoCommand, type EmptySettings, SyncedKeyAction } from "./helpers";
 
+/** Keypad action that toggles audio mute in Dyno Music. */
 @action({ UUID: "com.textic.dyno-controller.mute" })
 export class MuteAction extends SyncedKeyAction<EmptySettings> {
 	protected override async syncAction(action: KeyAction<EmptySettings>): Promise<void> {

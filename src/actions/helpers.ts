@@ -44,12 +44,14 @@ export abstract class SyncedKeyAction<T extends JsonObject = JsonObject> extends
 		}
 	}
 
+	// Re-sync after release as belt-and-suspenders alongside manifest DisableAutomaticStates.
 	override async onKeyUp(ev: KeyUpEvent<T>): Promise<void> {
 		if (ev.action.isKey()) {
 			await this.syncAction(ev.action);
 		}
 	}
 
+	/** Synchronizes a single key's visual state/title/image with `dynoClient`. */
 	protected abstract syncAction(action: KeyAction<T>, overrideSettings?: T): Promise<void> | void;
 }
 

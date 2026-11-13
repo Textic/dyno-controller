@@ -18,6 +18,7 @@ interface WatchTarget {
 	playlistId?: string;
 }
 
+/** Parses a YouTube / YouTube Music URL or raw ID into a `watch` command target. */
 function parseWatchTarget(raw?: string): WatchTarget | null {
 	const value = raw?.trim();
 	if (!value) return null;
@@ -41,6 +42,7 @@ function parseWatchTarget(raw?: string): WatchTarget | null {
 	return { videoId: value };
 }
 
+/** Keypad action that starts a configured YouTube Music track or playlist via `watch`. */
 @action({ UUID: "com.textic.dyno-controller.quick-play" })
 export class QuickPlayAction extends SingletonAction<QuickPlaySettings> {
 	override async onWillAppear(ev: WillAppearEvent<QuickPlaySettings>): Promise<void> {
