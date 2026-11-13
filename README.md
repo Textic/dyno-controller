@@ -15,7 +15,7 @@ Stream Deck plugin (SDK v3 / Node 24) to view and control **Dyno Music** over it
 - **Quick Play** — Starts a configured YouTube / YouTube Music watch URL, playlist URL, or raw `videoId` / `playlistId`.
 
 ### Stream Deck+ Dial Action
-- **Volume Dial** (`$B2` touchstrip layout) — Rotate to adjust volume with live feedback bar, push or tap touchstrip to toggle mute.
+- **Dyno Dial** (`$B2` touchstrip layout) — Rotate to adjust volume with track artwork and live feedback bar, press dial to Play/Pause, or tap the touchstrip to toggle mute.
 
 ## Setup in Dyno Music
 

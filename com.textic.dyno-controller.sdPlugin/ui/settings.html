@@ -108,9 +108,21 @@
 		</div>
 
 		<div id="section-volume-dial" class="hidden">
-			<sdpi-heading>Volume Dial</sdpi-heading>
+			<sdpi-heading>Dyno Dial</sdpi-heading>
 			<sdpi-item label="Step / Tick (%)">
 				<sdpi-range setting="step" min="1" max="20" step="1" default="5" showlabels></sdpi-range>
+			</sdpi-item>
+			<sdpi-item label="On Dial Press">
+				<sdpi-select setting="pushAction" default="toggle">
+					<option value="toggle">Play / Pause</option>
+					<option value="mute">Mute / Unmute</option>
+				</sdpi-select>
+			</sdpi-item>
+			<sdpi-item label="On Screen Tap">
+				<sdpi-select setting="touchAction" default="mute">
+					<option value="mute">Mute / Unmute</option>
+					<option value="toggle">Play / Pause</option>
+				</sdpi-select>
 			</sdpi-item>
 		</div>
 

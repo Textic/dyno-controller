@@ -216,7 +216,7 @@
 			"Name": "Dyno Dial",
 			"UUID": "com.textic.dyno-controller.volume-dial",
 			"Icon": "imgs/actions/volume-dial/icon",
-			"Tooltip": "Rotate dial to adjust volume, press or tap to mute.",
+			"Tooltip": "Rotate dial to adjust volume, press dial to play/pause, tap touchstrip to mute.",
 			"PropertyInspectorPath": "ui/settings.html",
 			"Controllers": [
 				"Encoder"
@@ -225,7 +225,7 @@
 				"layout": "$B2",
 				"TriggerDescription": {
 					"Rotate": "Adjust Volume",
-					"Push": "Mute / Unmute",
+					"Push": "Play / Pause",
 					"Touch": "Mute / Unmute"
 				}
 			},

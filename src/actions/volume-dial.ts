@@ -11,8 +11,12 @@ import {
 import { dynoClient } from "../dyno-client";
 import { runDynoCommand } from "./helpers";
 
+type DialPressMode = "toggle" | "mute";
+
 type VolumeDialSettings = {
 	step?: number;
+	pushAction?: DialPressMode;
+	touchAction?: DialPressMode;
 };
 
 @action({ UUID: "com.textic.dyno-controller.volume-dial" })
@@ -69,14 +73,18 @@ export class VolumeDialAction extends SingletonAction<VolumeDialSettings> {
 	}
 
 	override async onDialDown(ev: DialDownEvent<VolumeDialSettings>): Promise<void> {
-		await this.toggleMute(ev.action);
+		await this.runPressAction(ev.action, ev.payload.settings.pushAction ?? "toggle");
 	}
 
 	override async onTouchTap(ev: TouchTapEvent<VolumeDialSettings>): Promise<void> {
-		await this.toggleMute(ev.action);
+		await this.runPressAction(ev.action, ev.payload.settings.touchAction ?? "mute");
 	}
 
-	private async toggleMute(act: DialAction<VolumeDialSettings>): Promise<void> {
+	private async runPressAction(act: DialAction<VolumeDialSettings>, mode: DialPressMode): Promise<void> {
+		if (mode === "toggle") {
+			await runDynoCommand(act, { type: "toggle" });
+			return;
+		}
 		const muted = !(dynoClient.getState()?.muted ?? false);
 		await runDynoCommand(act, { type: "mute", muted });
 	}
